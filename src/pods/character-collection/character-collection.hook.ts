@@ -9,7 +9,7 @@ export const useCharacterCollection = () => {
     CharacterEntityVm[]
   >([]);
 
-  const loadCharacterCollection = () => {
+  const loadCharacterCollection = (id: string = '') => {
     getCharacterCollection().then((result) =>
       setCharacterCollection(mapToCollection(result, mapFromApiToVm))
     );

@@ -1,4 +1,5 @@
 import { generatePath } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 
 interface SwitchRoutes {
   root: string;

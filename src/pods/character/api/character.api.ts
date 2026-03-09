@@ -1,9 +1,14 @@
 import { Character } from './character.api-model';
 import { Lookup } from '#common/models';
-import axios from 'axios';
 
 export const getCharacterById = async (id: string): Promise<Character> => {
-  const { data } = await axios.get<Character>(`/api/character/${id}`);
+  const response = await fetch(`/api/character/${id}`);
+
+  if (!response.ok) {
+    throw new Error(`Error loading character ${id}: ${response.status}`);
+  }
+
+  const data = (await response.json()) as Character;
   return data;
 };
 

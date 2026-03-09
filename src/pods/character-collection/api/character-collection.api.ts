@@ -2,16 +2,25 @@
 
 import { Character } from './character-collection.api-model';
 import { mockCharacters } from './character-collection.mock-data';
-import axios from 'axios';
 
 let characterCollection = [...mockCharacters];
 
-const url = '/api/character';
+const url = 'https://rickandmortyapi.com/api/character';
 
 export const getCharacterCollection = async (): Promise<Character[]> => {
-  const { data } = await axios.get<{ info: { count: number }; results: Character[] }>(url);
-  return data.results;
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    throw new Error(`Error loading character collection: ${response.status}`);
   }
+
+  const data = (await response.json()) as {
+    info: { count: number };
+    results: Character[];
+  };
+
+  return data.results;
+};
 
 export const deleteCharacter = async (id: string): Promise<boolean> => {
   characterCollection = characterCollection.filter((h) => h.id !== Number(id));
